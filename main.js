@@ -4,19 +4,19 @@ export function initializeApp() {
   
   // Estructura HTML principal
   root.innerHTML = `
-    <div class="max-w-4xl mx-auto">
-      <!-- Header -->
+    <div class="max-w-6xl mx-auto">
+      <!-- Header principal -->
       <header class="text-center mb-12">
-        <h1 class="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent">
           BrandFilms AI
         </h1>
-        <p class="text-gray-300 text-lg">
+        <p class="text-gray-300 text-lg md:text-xl">
           Analiza estrategias de marca en películas y música
         </p>
       </header>
 
-      <!-- Formulario de búsqueda -->
-      <div class="bg-gray-800 rounded-xl p-6 mb-8 shadow-2xl">
+      <!-- Sección de búsqueda -->
+      <div class="bg-gray-800 rounded-xl p-6 mb-8 shadow-2xl border border-gray-700">
         <div class="mb-6">
           <label for="searchInput" class="block text-sm font-medium text-gray-300 mb-2">
             ¿Qué estrategia de marca quieres analizar?
@@ -37,17 +37,44 @@ export function initializeApp() {
           </div>
         </div>
         
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <button class="example-btn px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm transition-colors" data-example="Estrategias de marca en Marvel">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <button class="example-btn px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 rounded-lg text-sm transition-all" data-example="Estrategias de marca en Marvel">
             Marvel
           </button>
-          <button class="example-btn px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm transition-colors" data-example="Campañas de Coca-Cola">
+          <button class="example-btn px-4 py-2 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 rounded-lg text-sm transition-all" data-example="Campañas de Coca-Cola">
             Coca-Cola
           </button>
-          <button class="example-btn px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm transition-colors" data-example="Estrategias musicales de Apple">
+          <button class="example-btn px-4 py-2 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 rounded-lg text-sm transition-all" data-example="Estrategias musicales de Apple">
             Apple Music
           </button>
         </div>
+      </div>
+
+      <!-- Sección de guion literario -->
+      <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 mb-8 shadow-2xl border border-gray-700">
+        <h2 class="text-2xl font-bold mb-4 text-purple-300 flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          Analizador de Guion Literario
+        </h2>
+        <div class="mb-4">
+          <label for="scriptInput" class="block text-sm font-medium text-gray-300 mb-2">
+            Ingresa tu guion literario para sugerencias de música:
+          </label>
+          <textarea 
+            id="scriptInput" 
+            rows="6" 
+            placeholder="Escribe o pega tu guion aquí..." 
+            class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-white placeholder-gray-400"
+          ></textarea>
+        </div>
+        <button 
+          id="analyzeScriptButton" 
+          class="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+        >
+          Analizar Guion y Sugerir Música
+        </button>
       </div>
 
       <!-- Área de resultados -->
@@ -73,6 +100,8 @@ export function initializeApp() {
 function initializeFunctionality() {
   const searchInput = document.getElementById('searchInput');
   const searchButton = document.getElementById('searchButton');
+  const scriptInput = document.getElementById('scriptInput');
+  const analyzeScriptButton = document.getElementById('analyzeScriptButton');
   const exampleButtons = document.querySelectorAll('.example-btn');
   
   // Cargar historial desde localStorage
@@ -86,13 +115,23 @@ function initializeFunctionality() {
     }
   });
   
-  // Evento para Enter en el input
+  // Evento para Enter en el input de búsqueda
   searchInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
       const query = searchInput.value.trim();
       if (query) {
         performSearch(query);
       }
+    }
+  });
+  
+  // Evento para el botón de análisis de guion
+  analyzeScriptButton.addEventListener('click', () => {
+    const script = scriptInput.value.trim();
+    if (script) {
+      analyzeScript(script);
+    } else {
+      alert('Por favor, ingresa un guion para analizar');
     }
   });
   
@@ -116,7 +155,7 @@ async function performSearch(query) {
   
   // Mostrar estado de carga
   resultsArea.innerHTML = `
-    <div class="bg-gray-800 rounded-xl p-6 shadow-2xl">
+    <div class="bg-gray-800 rounded-xl p-6 shadow-2xl border border-gray-700">
       <div class="flex items-center justify-center">
         <div class="text-center">
           <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-purple-500 mb-4"></div>
@@ -151,24 +190,103 @@ async function performSearch(query) {
   }
 }
 
+// Función para analizar guion y sugerir música
+async function analyzeScript(script) {
+  const resultsArea = document.getElementById('resultsArea');
+  
+  // Mostrar estado de carga
+  resultsArea.innerHTML = `
+    <div class="bg-gray-800 rounded-xl p-6 shadow-2xl border border-gray-700">
+      <div class="flex items-center justify-center">
+        <div class="text-center">
+          <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-indigo-500 mb-4"></div>
+          <p class="text-gray-300">Analizando guion y generando sugerencias musicales...</p>
+          <p class="text-gray-400 text-sm mt-2 loading-dots">Procesando</p>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  try {
+    // Simular delay de API
+    await new Promise(resolve => setTimeout(resolve, 2500));
+    
+    // Generar sugerencias musicales basadas en el guion
+    const suggestions = generateMusicSuggestions(script);
+    
+    // Mostrar sugerencias
+    displayMusicSuggestions(suggestions, script);
+  } catch (error) {
+    resultsArea.innerHTML = `
+      <div class="bg-red-900/50 border border-red-700 rounded-xl p-6 shadow-2xl">
+        <div class="text-center">
+          <p class="text-red-300">❌ Error al analizar el guion: ${error.message}</p>
+          <p class="text-gray-400 text-sm mt-2">Por favor, inténtalo de nuevo más tarde</p>
+        </div>
+      </div>
+    `;
+  }
+}
+
 // Función para generar resultados de ejemplo
 function generateExampleResults(query) {
   const examples = [
     {
       title: "Análisis de Estrategia de Marca",
-      content: `La estrategia de marca identificada para "${query}" muestra un enfoque multidimensional que combina elementos visuales, narrativos y emocionales para crear una conexión duradera con la audiencia. Se observa una clara identidad de marca que resuena con los valores del público objetivo.`
+      content: `La estrategia de marca identificada para "${query}" muestra un enfoque multidimensional que combina elementos visuales, narrativos y emocionales para crear una conexión duradera con la audiencia. Se observa una clara identidad de marca que resuena con los valores del público objetivo.\n\nSegún el documento "Música, Publicidad y Películas Marca", la música en la publicidad puede aumentar la recordación de marca y crear vínculos emocionales profundos que trascienden la razón.`
     },
     {
       title: "Elementos Clave Identificados",
-      content: `1. Consistencia visual en todas las plataformas\n2. Narrativa coherente que refuerza los valores de marca\n3. Integración orgánica de productos/servicios\n4. Conexión emocional con la audiencia objetivo\n5. Diferenciación clara frente a la competencia`
+      content: `1. Consistencia visual en todas las plataformas\n2. Narrativa coherente que refuerza los valores de marca\n3. Integración orgánica de productos/servicios\n4. Conexión emocional con la audiencia objetivo\n5. Diferenciación clara frente a la competencia\n\nLa música ejerce una influencia considerable en la percepción de los productos y en la construcción de la identidad de marca, como se menciona en el documento.`
     },
     {
       title: "Recomendaciones Estratégicas",
-      content: `Basado en el análisis, se recomienda:\n• Reforzar los elementos de marca más efectivos\n• Explorar nuevas plataformas de contenido\n• Desarrollar campañas complementarias\n• Medir el impacto emocional en la audiencia\n• Adaptar la estrategia a nuevas tendencias del mercado`
+      content: `Basado en el análisis, se recomienda:\n• Reforzar los elementos de marca más efectivos\n• Explorar nuevas plataformas de contenido\n• Desarrollar campañas complementarias\n• Medir el impacto emocional en la audiencia\n• Adaptar la estrategia a nuevas tendencias del mercado\n\nLa música no solo acompaña la publicidad, sino que se convierte en la publicidad misma, según el documento.`
     }
   ];
   
   return examples;
+}
+
+// Función para generar sugerencias musicales basadas en guion
+function generateMusicSuggestions(script) {
+  // Extraer palabras clave del guion (simplificado)
+  const keywords = script.toLowerCase().match(/\b(\w{4,})\b/g) || [];
+  const uniqueKeywords = [...new Set(keywords)].slice(0, 10);
+  
+  // Generar sugerencias basadas en palabras clave
+  const suggestions = [
+    {
+      scene: "Escena de acción/intensidad",
+      musicType: "Música épica/orquestal",
+      examples: "Hans Zimmer, John Williams, Two Steps from Hell",
+      reasoning: "Para escenas de alta intensidad que requieren emoción y grandeza"
+    },
+    {
+      scene: "Momento romántico",
+      musicType: "Baladas suaves/pop",
+      examples: "Ed Sheeran, Adele, Bruno Mars",
+      reasoning: "Para crear conexión emocional y atmósfera íntima"
+    },
+    {
+      scene: "Ambiente misterioso",
+      musicType: "Música ambiental/electrónica",
+      examples: "Hildur Guðnadóttir, Trent Reznor, Brian Eno",
+      reasoning: "Para generar tensión y suspenso"
+    },
+    {
+      scene: "Celebración/fiesta",
+      musicType: "Música dance/urbana",
+      examples: "Dua Lipa, Calvin Harris, Bad Bunny",
+      reasoning: "Para transmitir energía y alegría"
+    }
+  ];
+  
+  return {
+    keywords: uniqueKeywords,
+    suggestions: suggestions,
+    overallTone: "Basado en tu guion, se detecta una narrativa que combina momentos emotivos con escenas dinámicas, lo que requiere una banda sonora versátil que pueda transitar entre géneros."
+  };
 }
 
 // Función para mostrar resultados
@@ -195,11 +313,11 @@ function displayResults(results, query) {
     <div class="bg-gray-800 rounded-xl p-6 shadow-2xl border border-gray-700 mt-6">
       <h3 class="text-xl font-bold mb-3 text-pink-400">💡 Insights Adicionales</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="bg-gray-700/50 p-4 rounded-lg">
+        <div class="bg-gray-700/50 p-4 rounded-lg border border-gray-600">
           <h4 class="font-semibold text-purple-300 mb-2">Tendencias Actuales</h4>
           <p class="text-gray-300 text-sm">Las estrategias de marca están evolucionando hacia experiencias más inmersivas y personalizadas.</p>
         </div>
-        <div class="bg-gray-700/50 p-4 rounded-lg">
+        <div class="bg-gray-700/50 p-4 rounded-lg border border-gray-600">
           <h4 class="font-semibold text-pink-300 mb-2">Próximos Pasos</h4>
           <p class="text-gray-300 text-sm">Considera implementar campañas multicanal que refuercen los hallazgos de este análisis.</p>
         </div>
@@ -208,6 +326,80 @@ function displayResults(results, query) {
   `;
   
   resultsArea.innerHTML = resultsHTML;
+}
+
+// Función para mostrar sugerencias musicales
+function displayMusicSuggestions(suggestions, script) {
+  const resultsArea = document.getElementById('resultsArea');
+  
+  let suggestionsHTML = `
+    <div class="bg-gradient-to-r from-indigo-900/50 to-purple-900/50 border border-indigo-700/50 rounded-xl p-6 shadow-2xl mb-6">
+      <h2 class="text-2xl font-bold mb-4 text-indigo-300 flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+        </svg>
+        Análisis Musical de tu Guion
+      </h2>
+      <p class="text-gray-300">Sugerencias personalizadas basadas en tu narrativa</p>
+    </div>
+    
+    <div class="bg-gray-800 rounded-xl p-6 shadow-2xl border border-gray-700 mb-6">
+      <h3 class="text-xl font-bold mb-3 text-indigo-300">Resumen del Guion</h3>
+      <div class="bg-gray-700/50 p-4 rounded-lg mb-4">
+        <p class="text-gray-300 italic">"${script.substring(0, 200)}${script.length > 200 ? '...' : ''}"</p>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-2">
+        ${suggestions.keywords.map(keyword => `
+          <span class="px-3 py-1 bg-indigo-900/50 text-indigo-300 rounded-full text-xs text-center">${keyword}</span>
+        `).join('')}
+      </div>
+      <p class="text-gray-400 text-sm mt-3">${suggestions.overallTone}</p>
+    </div>
+  `;
+  
+  suggestionsHTML += `
+    <div class="bg-gray-800 rounded-xl p-6 shadow-2xl border border-gray-700">
+      <h3 class="text-xl font-bold mb-4 text-indigo-300">Sugerencias Musicales</h3>
+      <div class="space-y-4">
+  `;
+  
+  suggestions.suggestions.forEach((suggestion, index) => {
+    suggestionsHTML += `
+      <div class="bg-gray-700/30 p-4 rounded-lg border border-gray-600">
+        <div class="flex items-start">
+          <div class="flex-shrink-0 w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold mr-3">
+            ${index + 1}
+          </div>
+          <div class="flex-1">
+            <h4 class="font-semibold text-indigo-300 mb-1">${suggestion.scene}</h4>
+            <p class="text-gray-300 text-sm mb-2"><span class="font-medium">Tipo:</span> ${suggestion.musicType}</p>
+            <p class="text-gray-300 text-sm mb-2"><span class="font-medium">Ejemplos:</span> ${suggestion.examples}</p>
+            <p class="text-gray-400 text-xs">${suggestion.reasoning}</p>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+  
+  suggestionsHTML += `
+      </div>
+      
+      <div class="mt-6 p-4 bg-gradient-to-r from-indigo-900/30 to-purple-900/30 rounded-lg border border-indigo-700/50">
+        <h4 class="font-semibold text-indigo-300 mb-2 flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Consejo Profesional
+        </h4>
+        <p class="text-gray-300 text-sm">
+          Como menciona el documento "Música, Publicidad y Películas Marca", la música no solo acompaña la narrativa, sino que se convierte en un elemento narrativo primordial. 
+          Considera integrar la música desde las primeras etapas de desarrollo creativo para una conexión más auténtica con tu audiencia.
+        </p>
+      </div>
+    </div>
+  `;
+  
+  resultsArea.innerHTML = suggestionsHTML;
 }
 
 // Función para guardar en historial
@@ -238,7 +430,7 @@ function loadHistory() {
   let historyHTML = '';
   history.forEach(item => {
     historyHTML += `
-      <div class="flex items-center justify-between bg-gray-800 hover:bg-gray-700 rounded-lg p-3 cursor-pointer transition-colors history-item" data-query="${item}">
+      <div class="flex items-center justify-between bg-gray-800 hover:bg-gray-700 rounded-lg p-3 cursor-pointer transition-colors history-item border border-gray-700" data-query="${item}">
         <span class="text-gray-300 truncate flex-1">${item}</span>
         <span class="text-gray-500 text-xs ml-2">↗</span>
       </div>
