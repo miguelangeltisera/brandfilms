@@ -21,10 +21,33 @@
       40% { content: '..'; }
       60%, 100% { content: '...'; }
     }
+    .floating-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(17, 24, 39, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(139, 92, 246, 0.3);
+    }
+    .content-wrapper {
+      margin-top: 120px;
+    }
   </style>
 </head>
 <body class="bg-gray-900 text-gray-100 min-h-screen">
-  <div id="root" class="container mx-auto px-4 py-8">
+  <!-- Título flotante -->
+  <div class="floating-header">
+    <div class="container mx-auto px-4">
+      <h1 class="text-xl font-bold text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+        Creado por el Profesor de Realización Audiovisual Miguelangel Tisera
+      </h1>
+    </div>
+  </div>
+
+  <div id="root" class="container mx-auto px-4 py-8 content-wrapper">
     <!-- Contenido se cargará aquí mediante JavaScript -->
   </div>
   
