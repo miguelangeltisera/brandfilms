@@ -1,31 +1,35 @@
+
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Música, Publicidad y Brand Films</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brand Films & Music Strategy Analyzer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+  </style>
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "react": "https://esm.sh/react@^19.1.0",
+    "@google/genai": "https://esm.sh/@google/genai@^1.10.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "react-router-dom": "https://esm.sh/react-router-dom@^7.7.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
 </head>
-<body>
-  <header>
-    <h1>Música, Publicidad y Películas Marca</h1>
-    <p>Página web creada por el profesor MiguelÁngel Tisera</p>
-  </header>
-  <main>
-    <p>Explora el poder de la música en la publicidad y los brand films.</p>
-    <audio controls>
-      <source src="media/sample-music.mp3" type="audio/mpeg">
-      Tu navegador no soporta la reproducción de audio.
-    </audio>
-    <video width="320" height="240" controls>
-      <source src="media/sample-video.mp4" type="video/mp4">
-      Tu navegador no soporta la reproducción de video.
-    </video>
-    <img src="img/sample-image.jpg" alt="Ejemplo gráfico" style="max-width:100%;margin-top:1rem;">
-  </main>
-  <footer>
-    Contacto: <a href="mailto:miguelangeltisera@gmail.com" style="color:white;">miguelangeltisera@gmail.com</a>
-  </footer>
-  <script src="js/scripts.js"></script>
+<body class="bg-gray-900 text-gray-100">
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
 </body>
 </html>
